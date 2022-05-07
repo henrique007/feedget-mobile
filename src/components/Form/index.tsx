@@ -10,6 +10,8 @@ import {feedbackTypes} from '../../utils/feedbackTypes';
 import { ScreenshotButton } from '../ScreenshotButton';
 import { SendFeedbackButton } from '../SendFeedbackButton';
 import { captureScreen } from 'react-native-view-shot';
+import { api } from '../../libs/api';
+import * as FileSystem from 'expo-file-system';
 
 
 interface Props {
@@ -22,6 +24,7 @@ export function Form({feedbackType, onFeedbackCanceled, onFeedbackSent}:Props) {
     const [screenshot, setScreenshot] = useState<string|null>(null);
     const feedbackTypeInfo = feedbackTypes[feedbackType];
     const [isSendingFeedback, setIsSendingFeedback] = useState(false);
+    const [comment, setComment] = useState("")
 
     function handleScreenshot(){
         captureScreen({
@@ -42,7 +45,16 @@ export function Form({feedbackType, onFeedbackCanceled, onFeedbackSent}:Props) {
         }
         setIsSendingFeedback(true);
 
+        const screenshotBase64 = screenshot && await FileSystem.readAsStringAsync(screenshot, {encoding: 'base64'});
+
         try{
+            await api.post('/feedbacks', {
+                type: feedbackType,
+                screenshot: `data:image/png;base64, ${screenshotBase64}`,
+                comment
+            });
+
+            onFeedbackSent();
 
         }catch(error) {
             console.log(error);
@@ -78,6 +90,7 @@ export function Form({feedbackType, onFeedbackCanceled, onFeedbackSent}:Props) {
             style={styles.input}
             placeholder= "AppLoading está deprecado, porém, consegui resolver o problema da forma correta seguindo a documentação. Segue de exemplo abaixo do meu App()"
             placeholderTextColor={theme.colors.text_secondary}
+            onChangeText={setComment}
         />
 
         <View style={styles.footer}>
