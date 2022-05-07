@@ -8,6 +8,7 @@ import { ArrowArcLeft } from 'phosphor-react-native';
 import { FeedbackType } from '../Widget';
 import {feedbackTypes} from '../../utils/feedbackTypes';
 import { ScreenshotButton } from '../ScreenshotButton';
+import { SendFeedbackButton } from '../SendFeedbackButton';
 
 
 interface Props {
@@ -51,8 +52,10 @@ export function Form({feedbackType}:Props) {
             <ScreenshotButton 
                 onTakeShot={() => {}}
                 onRemoveShot={() => {}}
-                screenshot=''
+                screenshot='https://avatars.githubusercontent.com/u/47355849?v=4'
             />
+
+            <SendFeedbackButton isLoading={false}/>
         </View>
 
     </View>
