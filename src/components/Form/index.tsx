@@ -6,7 +6,9 @@ import { styles } from './styles';
 import { ArrowArcLeft } from 'phosphor-react-native';
 
 import { FeedbackType } from '../Widget';
-import {feedbackTypes} from '../../utils/feedbackTypes' 
+import {feedbackTypes} from '../../utils/feedbackTypes';
+import { ScreenshotButton } from '../ScreenshotButton';
+
 
 interface Props {
     feedbackType: FeedbackType;
@@ -44,6 +46,15 @@ export function Form({feedbackType}:Props) {
             placeholder= "AppLoading está deprecado, porém, consegui resolver o problema da forma correta seguindo a documentação. Segue de exemplo abaixo do meu App()"
             placeholderTextColor={theme.colors.text_secondary}
         />
+
+        <View style={styles.footer}>
+            <ScreenshotButton 
+                onTakeShot={() => {}}
+                onRemoveShot={() => {}}
+                screenshot=''
+            />
+        </View>
+
     </View>
   );
 }
